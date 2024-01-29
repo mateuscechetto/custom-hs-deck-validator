@@ -1,6 +1,6 @@
 import "./App.css";
 import { CardAndCopies, Rule, validateDeckString } from "./DeckValidator";
-import { Card, HsClass } from "./Card";
+import { Card, Expansion, Expansions, HsClass, HsClasses } from "./Card";
 import { useState } from "react";
 
 function App() {
@@ -9,16 +9,37 @@ function App() {
   const [validatedDeck, setValidatedDeck] = useState(false);
 
   const handleValidate = () => {
-    const invalids = validateDeckString(deckString, [onlyClassCards]);
+    const invalids = validateDeckString(deckString, [
+      generateValidExpansionsRule([
+        Expansions.SHOWDOWN_BADLANDS,
+        Expansions.THE_SUNKEN_CITY,
+        Expansions.FESTIVAL_OF_LEGENDS,
+      ]),
+      highlanderRule,
+    ]);
     setInvalidCards(invalids);
     setValidatedDeck(true);
   };
 
-  const onlyClassCards: Rule = (card: Card, _: number, deckClass: HsClass) => {
+  const onlyClassCards: Rule = (card: Card, _: number, __: HsClass) => {
+    return card.cardClass !== HsClasses.NEUTRAL;
+  };
+
+  const onlyBadlandstExpansion: Rule = (card: Card, _: number, __: HsClass) => {
     return (
-      card.cardClass === deckClass ||
-      !!card.classes?.find((c) => c === deckClass)
+      card.set === Expansions.SHOWDOWN_BADLANDS ||
+      card.set === Expansions.THE_SUNKEN_CITY
     );
+  };
+
+  const generateValidExpansionsRule = (expansions: Expansion[]): Rule => {
+    return (card: Card, _: number, __: HsClass) => {
+      return expansions.includes(card.set);
+    };
+  };
+
+  const highlanderRule: Rule = (card: Card, copies: number, _: HsClass) => {
+    return copies === 1;
   };
 
   return (
