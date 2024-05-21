@@ -2,6 +2,7 @@ import "./App.css";
 import { CardAndCopies, Rule, validateDeckString } from "./DeckValidator";
 import { Card, Expansion, Expansions, HsClass, HsClasses } from "./Card";
 import { useState } from "react";
+import { Console } from "./Console";
 
 function App() {
   const [deckString, setDeckString] = useState("");
@@ -44,6 +45,7 @@ function App() {
 
   return (
     <>
+      <Console></Console>
       <div>
         <input
           type="text"
