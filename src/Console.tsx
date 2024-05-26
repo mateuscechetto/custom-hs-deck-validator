@@ -1,18 +1,8 @@
 import { Editor } from "@monaco-editor/react";
-import { CardRarities, CardTypes, Expansions, HsClasses } from "./Card";
 import { useEffect, useRef, useState } from "react";
 import * as monacoEditor from "monaco-editor";
-import { checkSintax } from "./RuleGenerator";
-const attributes = ["EXPANSION", "CLASS", "RARITY", "CARD_TYPE", "COPIES"];
-const operators = ["IN", "NOT", "IS"];
-const not = ["NOT"];
-const hsValues = [
-  ...Object.values(HsClasses),
-  ...Object.values(CardRarities),
-  ...Object.keys(Expansions),
-  ...Object.values(CardTypes),
-];
-const rule = ["RULE"];
+import { validateInput } from "./RuleGenerator";
+import { attributes, not, operators, hsValues, rule } from "./Grammar";
 
 export const Console = () => {
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
@@ -73,10 +63,7 @@ export const Console = () => {
         colors: {},
       });
 
-      monaco.editor.setTheme('customTheme');
-
-      console.log('chamou aqui ó')
-
+      monaco.editor.setTheme("customTheme");
 
       monaco.languages.registerCompletionItemProvider("Rules DSL", {
         provideCompletionItems(model, position, context, token) {
@@ -160,52 +147,28 @@ export const Console = () => {
       const editor = editorRef.current;
       const monaco = monacoRef.current;
       const model = editor.getModel();
-      console.log(JSON.stringify(value))
 
-      const errors = checkSintax(value);
+      const errors = validateInput(value);
 
-      console.log('roooooooo', errors)
-
-      if (errors.length && model) {
-        console.log('eeoe me dooood')
+      if (model) {
         monaco.editor.setModelMarkers(model, "owner", errors);
       }
-
-      // if (model) {
-      //   const markers: monacoEditor.editor.IMarkerData[] = [
-      //     {
-      //       startLineNumber: 1,
-      //       startColumn: 1,
-      //       endLineNumber: 1,
-      //       endColumn: 10,
-      //       message: "Error message for line 3",
-      //       severity: monaco.MarkerSeverity.Error,
-      //     },
-      //     // Add more markers as needed
-      //   ];
-      //   monaco.editor.setModelMarkers(model, "owner", markers);
-      // }
     }
     setValue(value);
   };
 
-
-
   return (
-    <>
-      <Editor
-        height="85vh"
-        width={`80vw`}
-        options={{ fontSize: 22 }}
-        language={"Rules DSL"}
-        theme="customTheme"
-        onChange={handleEditorChange}
-        onMount={(editor, monaco) => {
-          editorRef.current = editor;
-          monacoRef.current = monaco;
-        }}
-      ></Editor>
-      {value}
-    </>
+    <Editor
+      height="85vh"
+      width={`80vw`}
+      options={{ fontSize: 22 }}
+      language={"Rules DSL"}
+      theme="vs-dark"
+      onChange={handleEditorChange}
+      onMount={(editor, monaco) => {
+        editorRef.current = editor;
+        monacoRef.current = monaco;
+      }}
+    ></Editor>
   );
 };
