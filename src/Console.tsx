@@ -1,8 +1,8 @@
 import { Editor } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
 import * as monacoEditor from "monaco-editor";
-import { validateInput } from "./RuleGenerator";
 import { attributes, not, operators, hsValues, rule } from "./Grammar";
+import { validateInput } from "./RuleValidator";
 
 export const Console = () => {
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
