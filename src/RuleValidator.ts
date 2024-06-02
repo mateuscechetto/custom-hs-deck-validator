@@ -1,4 +1,4 @@
-import * as monacoEditor from "monaco-editor";
+import * as monacoEditor from 'monaco-editor';
 import { attributes, hsValues } from "./Grammar";
 import { CardRarities, CardTypes, Expansions, HsClasses } from "./Card";
 
@@ -12,7 +12,10 @@ export const validateInput = (
     if (line.length == 0) {
       return;
     }
-    const words = line.replace(/\s+/g, " ").trim().split(" ");
+    const words = line.split(' ').filter(word => word.trim() !== '');
+    if(words.length == 0) {
+      return;
+    }
     const ruleError = validateRuleStart(words, line, index);
     if (ruleError) {
       markers.push(ruleError);
@@ -108,7 +111,7 @@ const validateOperator = (
         line.indexOf(words[2]) + 1,
         line.indexOf(words[3]) + 1 + 3,
         "Invalid syntax. Did you mean NOT IN?",
-        monacoEditor.MarkerSeverity.Warning
+        monacoEditor.MarkerSeverity?.Warning
       );
     }
     return null;
@@ -186,7 +189,7 @@ const validateSemantics = (
           words,
           index,
           line,
-          Object.keys(Expansions),
+          [...Object.keys(Expansions), "STANDARD"],
           "expansion"
         );
       } else {
@@ -194,7 +197,7 @@ const validateSemantics = (
           words,
           index,
           line,
-          Object.keys(Expansions),
+          [...Object.keys(Expansions), "STANDARD"],
           "expansion"
         );
       }
@@ -310,7 +313,7 @@ const createMarker = (
   startColumn: number,
   endColumn: number,
   message: string,
-  severity: monacoEditor.MarkerSeverity = monacoEditor.MarkerSeverity.Error
+  severity: monacoEditor.MarkerSeverity = monacoEditor.MarkerSeverity?.Error
 ): monacoEditor.editor.IMarkerData => ({
   startLineNumber: index + 1,
   endLineNumber: index + 1,
