@@ -1,4 +1,4 @@
-import * as monacoEditor from 'monaco-editor';
+import * as monacoEditor from "monaco-editor";
 import { attributes, hsValues } from "./Grammar";
 import { CardRarities, CardTypes, Expansions, HsClasses } from "./Card";
 
@@ -12,8 +12,8 @@ export const validateInput = (
     if (line.length == 0) {
       return;
     }
-    const words = line.split(' ').filter(word => word.trim() !== '');
-    if(words.length == 0) {
+    const words = line.split(" ").filter((word) => word.trim() !== "");
+    if (words.length == 0) {
       return;
     }
     const ruleError = validateRuleStart(words, line, index);
