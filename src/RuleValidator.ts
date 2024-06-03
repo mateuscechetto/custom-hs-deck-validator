@@ -178,7 +178,7 @@ const validateSemantics = (
           index,
           line.lastIndexOf(value) + 1,
           line.lastIndexOf(value) + 1 + value.length,
-          `Invalid value for COPIES. Must be a number.`
+          `Invalid value for COPIES. Must be numeric.`
         );
       }
       return null;

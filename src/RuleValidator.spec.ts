@@ -203,4 +203,75 @@ describe("Rule Validator", () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe("Validate Semantics", () => {
+    it("should return 'Invalid operator for COPIES.' error when the attribute is COPIES and the operator is not IS or IS NOT", () => {
+      const result = validateInput("RULE COPIES IN 1 2 3");
+      expect(result.length).toEqual(1);
+      expect(result[0].message.startsWith("Invalid operator for COPIES.")).toBe(
+        true
+      );
+    });
+
+    it("should return 'Invalid value for COPIES. Must be numeric.' error when the attribute is COPIES and the HsValue is not a numeric value", () => {
+      const result = validateInput("RULE COPIES IS ONE");
+      expect(result.length).toEqual(1);
+      expect(result[0].message).toEqual(
+        "Invalid value for COPIES. Must be numeric."
+      );
+    });
+
+    it.each([
+      [
+        "EXPANSION and a class (PALADIN)",
+        "RULE EXPANSION IS PALADIN",
+        "PALADIN",
+        "expansion",
+      ],
+      [
+        "EXPANSION and a class (PALADIN) in the middle of the IN values",
+        "RULE EXPANSION IN GVG, TGT, BLACKROCK, PALADIN, UNGORO",
+        "PALADIN",
+        "expansion",
+      ],
+      ["CLASS and an EXPANSION (GVG)", "RULE CLASS IS GVG", "GVG", "class"],
+      [
+        "CLASS and an EXPANSION (GVG) in the middle of the IN values",
+        "RULE CLASS IN DRUID, ROGUE, GVG, PALADIN, NEUTRAL",
+        "GVG",
+        "class",
+      ],
+      [
+        "RARITY and a class (PALADIN)",
+        "RULE RARITY IS PALADIN",
+        "PALADIN",
+        "rarity",
+      ],
+      [
+        "RARITY and a class (PALADIN) in the middle of the IN values",
+        "RULE RARITY IN COMMON, PALADIN, RARE",
+        "PALADIN",
+        "rarity",
+      ],
+      [
+        "CARD_TYPE and a class (PALADIN)",
+        "RULE CARD_TYPE IS PALADIN",
+        "PALADIN",
+        "card type",
+      ],
+      [
+        "CARD_TYPE and a class (PALADIN) in the middle of the IN values",
+        "RULE CARD_TYPE IN HERO, MINION, PALADIN",
+        "PALADIN",
+        "card type",
+      ],
+    ])(
+      "should return error when attribute and hsValue does not match: %o",
+      (_, input, word, entity) => {
+        const result = validateInput(input);
+        expect(result.length).toEqual(1);
+        expect(result[0].message).toEqual(`${word} is not a valid ${entity}.`);
+      }
+    );
+  });
 });
