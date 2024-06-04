@@ -2,6 +2,9 @@ import { Card, Expansions, HsClass, STANDARD_EXPANSIONS } from "./Card";
 import { Rule } from "./DeckValidator";
 import { validateInput } from "./RuleValidator";
 
+/**
+ * @throws {Error} When input is not valid
+ */
 export const generateRules = (input: string): Rule[] => {
   if (validateInput(input).length) {
     throw new Error("Invalid Rules");
@@ -61,8 +64,14 @@ export const generateRules = (input: string): Rule[] => {
     if (line.length === 0) return;
 
     const words = line.replace(/\s+/g, " ").trim().split(" ");
-    const attribute = words[1];
+
     const hasNot = words[2] === "NOT" || words[3] === "NOT";
+
+    if (words.length < 4 || (hasNot && words.length < 5)) {
+      throw new Error("Invalid Rules");
+    }
+
+    const attribute = words[1];
     const operator = hasNot ? `${words[2]} ${words[3]}` : words[2];
     const values = words
       .slice(hasNot ? 4 : 3)

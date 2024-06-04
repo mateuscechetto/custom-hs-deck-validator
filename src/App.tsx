@@ -10,11 +10,13 @@ function App() {
   const [invalidCards, setInvalidCards] = useState<CardAndCopies[]>([]);
   const [validatedDeck, setValidatedDeck] = useState(false);
   const [rulesString, setRulesString] = useState<string>("");
-  const [errors, setErrors] = useState<monacoEditor.editor.IMarkerData[]>([]);
-  const [rulesError, setRulesError] = useState(false);
+  const [sintaxErrors, setSintaxErrors] = useState<
+    monacoEditor.editor.IMarkerData[]
+  >([]);
+  const [validationError, setValidationError] = useState("");
 
   const handleValidate = () => {
-    setRulesError(false);
+    setValidationError("");
     setInvalidCards([]);
     setValidatedDeck(false);
     try {
@@ -25,13 +27,17 @@ function App() {
       setInvalidCards(invalids);
       setValidatedDeck(true);
     } catch (error) {
-      setRulesError(true);
+      if (typeof error === "string") {
+        setValidationError(error);
+      } else if (error instanceof Error) {
+        setValidationError(error.message);
+      }
     }
   };
 
   const renderValidationResults = () => {
-    if (rulesError) {
-      return <span>Invalid Rules</span>;
+    if (validationError !== "") {
+      return <span>{validationError}</span>;
     }
     if (validatedDeck) {
       if (invalidCards.length > 0) {
@@ -54,7 +60,7 @@ function App() {
   return (
     <>
       <Console
-        setErrors={setErrors}
+        setErrors={setSintaxErrors}
         value={rulesString}
         setValue={setRulesString}
       ></Console>
@@ -65,7 +71,7 @@ function App() {
           value={deckString}
           onChange={(event) => setDeckString(event.target.value)}
         />
-        <button onClick={handleValidate} disabled={errors.length > 0}>
+        <button onClick={handleValidate} disabled={sintaxErrors.length > 0}>
           Verify Deck
         </button>
       </div>

@@ -9,19 +9,16 @@ export type CardAndCopies = {
   copies: number;
 };
 
+/** 
+ * @throws {Error} When the deckstring is not decodable
+ */
 export const validateDeckString = (
   deckString: string,
   rules: Rule[]
 ): CardAndCopies[] => {
   let deck;
 
-  try {
-    deck = decode(deckString);
-  } catch (err) {
-    console.log("error on decoding deckstring", err);
-    // TODO: Handle errors
-    return [];
-  }
+  deck = decode(deckString);
 
   const deckClass = heroIdToClass(deck.heroes[0]);
 

@@ -297,6 +297,9 @@ const validateSingleValue = (
 ): monacoEditor.editor.IMarkerData | null => {
   const valueIndex = words[3] === "NOT" ? 4 : 3;
   const value = words[valueIndex];
+  if (!value) { // the sentence was not finished
+    return null;
+  }
   if (!validValues.includes(value)) {
     return createMarker(
       index,
