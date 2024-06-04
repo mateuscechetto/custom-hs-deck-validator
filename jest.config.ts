@@ -1,6 +1,7 @@
 export default {
   preset: "ts-jest",
   testEnvironment: "jest-environment-jsdom",
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   transform: {
     "^.+\\.tsx?$": "ts-jest",
     // process `*.tsx` files with `ts-jest`
