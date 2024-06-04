@@ -32,7 +32,7 @@ export const validateDeckString = (
 
   // TODO: add sideboard logic
 
-  let invalidCards = new Set<CardAndCopies>();
+  const invalidCards = new Set<CardAndCopies>();
 
   rules.forEach((rule) => {
     const invalidedByRule = deckCards.filter(

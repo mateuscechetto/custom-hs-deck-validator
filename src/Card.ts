@@ -78,9 +78,20 @@ export const Expansions = {
   PATH_OF_ARTHAS: "PATH_OF_ARTHAS",
   SHOWDOWN_BADLANDS: "WILD_WEST",
   WONDERS: "WONDERS", // something related to wild or twist
+  WHIZBANGS_WORKSHOP: "WHIZBANGS_WORKSHOP",
+  EVENT: "EVENT", // 10 year anniversary event -> Hearth Stone Brew and gift cards
 } as const;
 
 export type Expansion = (typeof Expansions)[keyof typeof Expansions];
+
+export const STANDARD_EXPANSIONS: Expansion[] = [
+  Expansions.CORE,
+  Expansions.TITANS,
+  Expansions.FESTIVAL_OF_LEGENDS,
+  Expansions.SHOWDOWN_BADLANDS,
+  Expansions.WHIZBANGS_WORKSHOP,
+  Expansions.EVENT,
+];
 
 export const SpellSchools = {
   NONE: "NONE",
