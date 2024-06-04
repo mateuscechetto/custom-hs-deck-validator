@@ -1,15 +1,20 @@
 import { Editor } from "@monaco-editor/react";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, useEffect, useRef } from "react";
 import * as monacoEditor from "monaco-editor";
 import { attributes, not, operators, hsValues, rule } from "./Grammar";
 import { validateInput } from "./RuleValidator";
 
-export const Console = () => {
+interface Props {
+  setErrors: Dispatch<React.SetStateAction<monacoEditor.editor.IMarkerData[]>>,
+  value: string,
+  setValue:  Dispatch<React.SetStateAction<string>>,
+}
+
+export const Console: React.FC<Props> = ({ setErrors, value, setValue }) => {
   const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(
     null
   );
   const monacoRef = useRef<typeof monacoEditor | null>(null);
-  const [value, setValue] = useState(null);
 
   useEffect(() => {
     if (monacoRef.current) {
@@ -149,6 +154,7 @@ export const Console = () => {
       const model = editor.getModel();
 
       const errors = validateInput(value);
+      setErrors(errors);
 
       if (model) {
         monaco.editor.setModelMarkers(model, "owner", errors);
@@ -164,6 +170,7 @@ export const Console = () => {
       options={{ fontSize: 22 }}
       language={"Rules DSL"}
       theme="vs-dark"
+      value={value}
       onChange={handleEditorChange}
       onMount={(editor, monaco) => {
         editorRef.current = editor;
