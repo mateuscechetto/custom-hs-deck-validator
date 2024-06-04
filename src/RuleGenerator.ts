@@ -6,14 +6,61 @@ export const generateRules = (input: string): Rule[] => {
   if (validateInput(input).length) {
     throw new Error("Invalid Rules");
   }
+
   const rules: Rule[] = [];
   const lines = input.split("\r\n");
-  lines.forEach((line) => {
-    if (line.length == 0) {
-      return;
-    }
-    const words = line.replace(/\s+/g, " ").trim().split(" ");
 
+  const createSimpleRule = (
+    attribute: string,
+    operator: string,
+    values: string[]
+  ): Rule => {
+    switch (operator) {
+      case "IS":
+        return (card: Card, _: number, __: HsClass) => {
+          return checkAttribute(card, attribute, values[0]);
+        };
+      case "IS NOT":
+        return (card: Card, _: number, __: HsClass) => {
+          return !checkAttribute(card, attribute, values[0]);
+        };
+      case "IN":
+        return (card: Card, _: number, __: HsClass) => {
+          return values.some((value) => checkAttribute(card, attribute, value));
+        };
+      case "NOT IN":
+        return (card: Card, _: number, __: HsClass) => {
+          return !values.some((value) =>
+            checkAttribute(card, attribute, value)
+          );
+        };
+      default:
+        throw new Error("Invalid operator");
+    }
+  };
+
+  const checkAttribute = (card: Card, attribute: string, value: string) => {
+    switch (attribute) {
+      case "EXPANSION":
+        if (value === "STANDARD") {
+          return STANDARD_EXPANSIONS.includes(card.set);
+        }
+        return card.set === Expansions[value as keyof typeof Expansions];
+      case "CLASS":
+        return card.cardClass === value;
+      case "RARITY":
+        return card.rarity === value;
+      case "CARD_TYPE":
+        return card.type === value;
+      default:
+        throw new Error("Invalid attribute");
+    }
+  };
+
+  lines.forEach((line) => {
+    if (line.length === 0) return;
+
+    const words = line.replace(/\s+/g, " ").trim().split(" ");
     const attribute = words[1];
     const hasNot = words[2] === "NOT" || words[3] === "NOT";
     const operator = hasNot ? `${words[2]} ${words[3]}` : words[2];
@@ -21,73 +68,18 @@ export const generateRules = (input: string): Rule[] => {
       .slice(hasNot ? 4 : 3)
       .map((value) => value.replace(",", ""));
 
-    switch (attribute) {
-      case "EXPANSION":
-        if (operator === "IS") {
-          if (values[0] === "STANDARD") {
-            rules.push((card: Card, _: number, __: HsClass) => {
-              return STANDARD_EXPANSIONS.includes(card.set);
-            });
-          } else {
-            rules.push((card: Card, _: number, __: HsClass) => {
-              return (
-                card.set === Expansions[values[0] as keyof typeof Expansions]
-              );
-            });
-          }
-        } else if (operator === "IS NOT") {
-          if (values[0] === "STANDARD") {
-            rules.push((card: Card, _: number, __: HsClass) => {
-              return !STANDARD_EXPANSIONS.includes(card.set);
-            });
-          } else {
-            rules.push((card: Card, _: number, __: HsClass) => {
-              return (
-                card.set !== Expansions[values[0] as keyof typeof Expansions]
-              );
-            });
-          }
-        } else if (operator === "IN") {
-          if (values.includes("STANDARD")) {
-            const filteredValues = values.filter((v) => v !== "STANDARD");
-            rules.push((card: Card, _: number, __: HsClass) => {
-              return [...filteredValues, ...STANDARD_EXPANSIONS].includes(
-                card.set
-              );
-            });
-          } else {
-            rules.push((card: Card, _: number, __: HsClass) => {
-              return values
-                .map((key) => Expansions[key as keyof typeof Expansions])
-                .includes(card.set);
-            });
-          }
-        } else if (values.includes("STANDARD")) {
-          const filteredValues = values.filter((v) => v !== "STANDARD");
-          rules.push((card: Card, _: number, __: HsClass) => {
-            return ![...filteredValues, ...STANDARD_EXPANSIONS].includes(
-              card.set
-            );
-          });
-        } else {
-          rules.push((card: Card, _: number, __: HsClass) => {
-            return !values
-              .map((key) => Expansions[key as keyof typeof Expansions])
-              .includes(card.set);
-          });
-        }
-        break;
-      case "COPIES":
-        if (operator === "IS") {
-          const rule = (_: Card, copies: number, __: HsClass) => {
-            return copies === Number(values[0]);
-          };
-          rules.push(rule);
-        } else {
-          rules.push((_: Card, copies: number, __: HsClass) => {
-            return copies !== Number(values[0]);
-          });
-        }
+    if (attribute === "COPIES") {
+      if (operator === "IS") {
+        rules.push(
+          (_: Card, copies: number, __: HsClass) => copies === Number(values[0])
+        );
+      } else {
+        rules.push(
+          (_: Card, copies: number, __: HsClass) => copies !== Number(values[0])
+        );
+      }
+    } else {
+      rules.push(createSimpleRule(attribute, operator, values));
     }
   });
 
