@@ -1,5 +1,5 @@
 import { decode } from "deckstrings";
-import cards from "./resources/cards.collectible.json"; // https://api.hearthstonejson.com/v1/192896/enUS/cards.collectible.json
+import cards from "./resources/cards.collectible.json"; // https://api.hearthstonejson.com/v1/latest/enUS/cards.collectible.json
 import { Card, HsClass, heroIdToClass } from "./Card";
 
 export type Rule = (card: Card, copies: number, deckClass: HsClass) => boolean;
