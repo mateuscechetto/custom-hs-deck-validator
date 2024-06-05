@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Console } from "./Console";
 import * as monacoEditor from "monaco-editor";
 import { generateRules } from "./RuleGenerator";
+import useScreenOrientationMessage from "./hooks/useScreenOrientation";
 
 function App() {
   const [deckString, setDeckString] = useState("");
@@ -14,6 +15,7 @@ function App() {
     monacoEditor.editor.IMarkerData[]
   >([]);
   const [validationError, setValidationError] = useState("");
+  const orientationMessage = useScreenOrientationMessage();
 
   const handleValidate = () => {
     setValidationError("");
@@ -59,6 +61,7 @@ function App() {
 
   return (
     <>
+      {orientationMessage}
       <Console
         setErrors={setSintaxErrors}
         value={rulesString}
