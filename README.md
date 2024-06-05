@@ -16,17 +16,11 @@ Frontend with React and tests with jest.
 
     git clone https://github.com/mateuscechetto/custom-hs-deck-validator.git
 
-### Add the Card collection json to resources folder
-
-Create resources folder
-
-    mkdir src/resources
-
-Inside that folder, create a file named `cards.collectible.json` and add the content of [hearthstoneJSON](https://hearthstonejson.com/) collection to it: https://api.hearthstonejson.com/v1/latest/enUS/cards.collectible.json.
 
 ### Start the app
 
     npm install
+    npm run load-collection
     npm run dev
 
 ## Contributing
