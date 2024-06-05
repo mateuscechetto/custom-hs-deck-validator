@@ -207,8 +207,9 @@ describe("Rule Generator", () => {
             HsClasses.WARRIOR,
             HsClasses.HUNTER,
           ];
-
-          return classes.includes(card.cardClass);
+          return classes.some(
+            (c) => card.cardClass === c || !!card.classes?.includes(c)
+          );
         },
       ],
       [
@@ -221,7 +222,9 @@ describe("Rule Generator", () => {
             HsClasses.HUNTER,
           ];
 
-          return !classes.includes(card.cardClass);
+          return !classes.some(
+            (c) => card.cardClass === c || !!card.classes?.includes(c)
+          );
         },
       ],
     ])("should generate RULE with %o", (_, input, expectedRule) => {

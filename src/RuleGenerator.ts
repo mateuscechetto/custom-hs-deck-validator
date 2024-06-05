@@ -50,7 +50,9 @@ export const generateRules = (input: string): Rule[] => {
         }
         return card.set === Expansions[value as keyof typeof Expansions];
       case "CLASS":
-        return card.cardClass === value;
+        return (
+          card.cardClass === value || !!card.classes?.includes(value as HsClass)
+        );
       case "RARITY":
         return card.rarity === value;
       case "CARD_TYPE":
