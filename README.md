@@ -1,34 +1,36 @@
-# custom-hs-deck-validator
-Validator for custom rules Hearthstone tournaments' decks.
+# Hearthstone Deck validator for Custom Rules
+
+A web application to validate Hearthstone decks under custom rules set by the users. It facilitates tournament with custom rules and players to challenge others under rules they can agree, enabling a different deckbuilding experience to players.
+
+## Technologies
+
+Frontend with React and tests with jest.
+
+## Running the project in DEV mode
+
+### Requirements
+
+- Node JS
+
+### Clone the project
+
+    git clone https://github.com/mateuscechetto/custom-hs-deck-validator.git
 
 
-# React + TypeScript + Vite
+### Start the app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    npm install
+    npm run load-collection
+    npm run dev
 
-Currently, two official plugins are available:
+## Contributing
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is an open-source project. We welcome feedback, pull requests, and bug reports from anyone.
 
-## Expanding the ESLint configuration
+The [issue tracker](https://github.com/mateuscechetto/custom-hs-deck-validator/issues) is the best place for creating bug reports and features requests. Be sure to check whether your issue or idea has already been submitted!
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+If there's a change you'd like to contribute, follow the README to get started with running the project locally. Before contributing any code, make sure you've had a chance to understand the codebase. Any doubts feel free to DM me on twitter: [molino_hs](https://x.com/molino_hs).
 
-- Configure the top-level `parserOptions` property like this:
+Create a new branch for your contributions, with a clear name that summarizes the feature change. Try to keep a single branch focused on one change, whether a feature or a bug fix.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Make sure that your commit messages are meaningful and clearly indicate what changes were made at each stage to assist with review when the branch enters PR. Before submitting a PR, make sure your changes pass all relevant tests.
