@@ -1,5 +1,5 @@
 import Home from "./Home";
-import AboutDSL from "./AboutDSL";
+import AboutDSL from "./AboutDSL/AboutDSL";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([

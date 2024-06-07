@@ -110,7 +110,7 @@ export const CardTypes = {
   MINION: "MINION",
   SPELL: "SPELL",
   WEAPON: "WEAPON",
-  TOKEN: "TOKEN",
+  // TOKEN: "TOKEN",
   LOCATION: "LOCATION",
   HERO: "HERO",
 } as const;
