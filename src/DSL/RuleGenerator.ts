@@ -1,5 +1,5 @@
-import { Card, Expansions, HsClass, STANDARD_EXPANSIONS } from "./Card";
-import { Rule } from "./DeckValidator";
+import { Card, Expansions, HsClass, STANDARD_EXPANSIONS } from "./../Card";
+import { Rule } from "./../DeckValidator";
 import { validateInput } from "./RuleValidator";
 
 /**

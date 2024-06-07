@@ -1,4 +1,4 @@
-import { CardRarities, CardTypes, Expansions, HsClasses } from "./Card";
+import { CardRarities, CardTypes, Expansions, HsClasses } from "./../Card";
 
 // Expression examples
 // RULE EXPANSION IS SHOWDOWN_BADLANDS

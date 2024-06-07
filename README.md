@@ -29,7 +29,7 @@ This is an open-source project. We welcome feedback, pull requests, and bug repo
 
 The [issue tracker](https://github.com/mateuscechetto/custom-hs-deck-validator/issues) is the best place for creating bug reports and features requests. Be sure to check whether your issue or idea has already been submitted!
 
-If there's a change you'd like to contribute, follow the README to get started with running the project locally. Before contributing any code, make sure you've had a chance to understand the codebase. Any doubts feel free to DM me on discord: molino.
+If there's a change you'd like to contribute, follow the README to get started with running the project locally. Before contributing any code, make sure you've had a chance to understand the codebase. Any doubts feel free to DM me on twitter: [molino_hs](https://x.com/molino_hs).
 
 Create a new branch for your contributions, with a clear name that summarizes the feature change. Try to keep a single branch focused on one change, whether a feature or a bug fix.
 

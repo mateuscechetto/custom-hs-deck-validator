@@ -1,6 +1,6 @@
 import * as monacoEditor from "monaco-editor";
 import { attributes, hsValues } from "./Grammar";
-import { CardRarities, CardTypes, Expansions, HsClasses } from "./Card";
+import { CardRarities, CardTypes, Expansions, HsClasses } from "./../Card";
 
 export const validateInput = (
   input: string

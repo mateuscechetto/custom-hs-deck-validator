@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { generateRules } from "./RuleGenerator";
-import { Rule, validateDeckString } from "./DeckValidator";
+import { Rule, validateDeckString } from "./../DeckValidator";
 import {
   Card,
   CardRarities,
@@ -12,7 +12,7 @@ import {
   HsClass,
   HsClasses,
   STANDARD_EXPANSIONS,
-} from "./Card";
+} from "./../Card";
 
 describe("Rule Generator", () => {
   const highlanderWarrior =

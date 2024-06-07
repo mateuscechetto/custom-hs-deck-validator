@@ -10,4 +10,6 @@ export default {
   moduleNameMapper: {
     "^monaco-editor$": "<rootDir>/node_modules/@monaco-editor/react",
   },
+  testMatch: ["<rootDir>/src/**/*.(test|spec).(ts|tsx)"],
+  roots: ["<rootDir>/src"]
 };

@@ -1,8 +1,8 @@
 import { Editor } from "@monaco-editor/react";
 import { Dispatch, useEffect, useRef } from "react";
 import * as monacoEditor from "monaco-editor";
-import { attributes, not, operators, hsValues, rule } from "./Grammar";
-import { validateInput } from "./RuleValidator";
+import { attributes, not, operators, hsValues, rule } from "./DSL/Grammar";
+import { validateInput } from "./DSL/RuleValidator";
 
 interface Props {
   setErrors: Dispatch<React.SetStateAction<monacoEditor.editor.IMarkerData[]>>,
