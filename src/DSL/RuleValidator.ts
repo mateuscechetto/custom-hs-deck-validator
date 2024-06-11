@@ -134,7 +134,7 @@ const validateHSValues = (
   line: string,
   index: number
 ): monacoEditor.editor.IMarkerData | null => {
-  if (words[1] === "COPIES") {
+  if (["COPIES", "COST"].includes(words[1])) {
     return null;
   }
   const startIndex = words.includes("NOT") ? 4 : 3;
@@ -255,6 +255,12 @@ const validateSemantics = (
           "card type"
         );
       }
+    case "COST":
+      if (words[2] === "IS") {
+        return validateSingleValue(words, index, line, ["EVEN", "ODD"], "cost", true);
+      } else {
+        return validateValues(words, index, line, ["EVEN", "ODD"], "cost", true);
+      }
     default:
       return null;
   }
@@ -265,7 +271,8 @@ const validateValues = (
   index: number,
   line: string,
   validValues: string[],
-  entity: string
+  entity: string,
+  acceptNumericValues: boolean = false
 ): monacoEditor.editor.IMarkerData | null => {
   const operatorIndex = words[2] === "NOT" ? 3 : 2;
   const startIndex = operatorIndex + 1;
@@ -275,6 +282,9 @@ const validateValues = (
   values.forEach((word, i) => {
     if (error) return;
     word = word.replace(",", "");
+    if (isNumeric(word) && acceptNumericValues) {
+      return null;
+    }
     if (!validValues.includes(word)) {
       error = createMarker(
         index,
@@ -293,11 +303,16 @@ const validateSingleValue = (
   index: number,
   line: string,
   validValues: string[],
-  entity: string
+  entity: string,
+  acceptNumericValues: boolean = false
 ): monacoEditor.editor.IMarkerData | null => {
   const valueIndex = words[3] === "NOT" ? 4 : 3;
   const value = words[valueIndex];
-  if (!value) { // the sentence was not finished
+  if (!value) {
+    // the sentence was not finished
+    return null;
+  }
+  if (isNumeric(value) && acceptNumericValues) {
     return null;
   }
   if (!validValues.includes(value)) {
@@ -325,3 +340,7 @@ const createMarker = (
   message,
   severity,
 });
+
+const isNumeric = (str: string): boolean => {
+  return !isNaN(str as unknown as number);
+};

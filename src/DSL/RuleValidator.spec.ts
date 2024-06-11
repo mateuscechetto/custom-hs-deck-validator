@@ -35,6 +35,11 @@ describe("Rule Validator", () => {
       ],
       ["STANDARD expansion", "RULE EXPANSION IS STANDARD"],
       ["COPIES attribute with number", "RULE COPIES IS 1"],
+      ["COST attribute with number", "RULE COST IS 3"],
+      ["COST EVEN", "RULE COST IS EVEN"],
+      ["COST ODD", "RULE COST IS ODD"],
+      // ["COST LESS THAN", "RULE COST IS <5"],
+      // ["COST MORE THAN", "RULE COST IS >3"],
     ])("should return an empty array for valid inputs for %o", (_, input) => {
       const result = validateInput(input);
       expect(result).toEqual([]);
@@ -264,6 +269,13 @@ describe("Rule Validator", () => {
         "RULE CARD_TYPE IN HERO, MINION, PALADIN",
         "PALADIN",
         "card type",
+      ],
+      ["COST and a class (PALADIN)", "RULE COST IS PALADIN", "PALADIN", "cost"],
+      [
+        "COST and a class (PALADIN) in the middle of the IN values",
+        "RULE COST IN EVEN, 1, 3, PALADIN",
+        "PALADIN",
+        "cost",
       ],
     ])(
       "should return error when attribute and hsValue does not match: %o",
