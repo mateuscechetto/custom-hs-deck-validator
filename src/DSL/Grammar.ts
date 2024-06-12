@@ -15,13 +15,16 @@ export const attributes = [
   "RARITY",
   "CARD_TYPE",
   "COPIES",
+  "COST",
 ];
 export const operators = ["IN", "IS"];
 export const not = ["NOT"];
 export const hsValues = [
-    ...Object.keys(Expansions),
+  ...Object.keys(Expansions),
   ...Object.values(HsClasses),
   ...Object.values(CardRarities),
   ...Object.values(CardTypes),
-  "STANDARD"
+  "STANDARD",
+  "ODD",
+  "EVEN",
 ];

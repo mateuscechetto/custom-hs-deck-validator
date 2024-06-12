@@ -20,19 +20,19 @@ export const generateRules = (input: string): Rule[] => {
   ): Rule => {
     switch (operator) {
       case "IS":
-        return (card: Card, _: number, __: HsClass) => {
+        return (card: Card, _: number) => {
           return checkAttribute(card, attribute, values[0]);
         };
       case "IS NOT":
-        return (card: Card, _: number, __: HsClass) => {
+        return (card: Card, _: number) => {
           return !checkAttribute(card, attribute, values[0]);
         };
       case "IN":
-        return (card: Card, _: number, __: HsClass) => {
+        return (card: Card, _: number) => {
           return values.some((value) => checkAttribute(card, attribute, value));
         };
       case "NOT IN":
-        return (card: Card, _: number, __: HsClass) => {
+        return (card: Card, _: number) => {
           return !values.some((value) =>
             checkAttribute(card, attribute, value)
           );
@@ -42,7 +42,11 @@ export const generateRules = (input: string): Rule[] => {
     }
   };
 
-  const checkAttribute = (card: Card, attribute: string, value: string) => {
+  const checkAttribute = (
+    card: Card,
+    attribute: string,
+    value: string
+  ): boolean => {
     switch (attribute) {
       case "EXPANSION":
         if (value === "STANDARD") {
@@ -57,6 +61,22 @@ export const generateRules = (input: string): Rule[] => {
         return card.rarity === value;
       case "CARD_TYPE":
         return card.type === value;
+      case "COST":
+        if (value === "ODD") {
+          return !!(card.cost & 1);
+        }
+        if (value === "EVEN") {
+          return !(card.cost & 1);
+        }
+        if (value.startsWith(">")) {
+          return card.cost > Number(value.slice(1));
+        }
+        if (value.startsWith("<")) {
+          return card.cost < Number(value.slice(1));
+        }
+
+        return card.cost === Number(value);
+
       default:
         throw new Error("Invalid attribute");
     }
@@ -81,13 +101,9 @@ export const generateRules = (input: string): Rule[] => {
 
     if (attribute === "COPIES") {
       if (operator === "IS") {
-        rules.push(
-          (_: Card, copies: number, __: HsClass) => copies === Number(values[0])
-        );
+        rules.push((_: Card, copies: number) => copies === Number(values[0]));
       } else {
-        rules.push(
-          (_: Card, copies: number, __: HsClass) => copies !== Number(values[0])
-        );
+        rules.push((_: Card, copies: number) => copies !== Number(values[0]));
       }
     } else {
       rules.push(createSimpleRule(attribute, operator, values));

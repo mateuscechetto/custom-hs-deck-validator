@@ -1,8 +1,8 @@
 import { decode } from "deckstrings";
 import cards from "./resources/cards.collectible.json"; // https://api.hearthstonejson.com/v1/latest/enUS/cards.collectible.json
-import { Card, HsClass, heroIdToClass } from "./Card";
+import { Card } from "./Card";
 
-export type Rule = (card: Card, copies: number, deckClass: HsClass) => boolean;
+export type Rule = (card: Card, copies: number) => boolean;
 
 export type CardAndCopies = {
   cardObject: Card;
@@ -20,8 +20,6 @@ export const validateDeckString = (
 
   deck = decode(deckString);
 
-  const deckClass = heroIdToClass(deck.heroes[0]);
-
   const deckCards = deck.cards.map(([id, copies]) => {
     const cardObject: Card = cards.find((c) => c.dbfId === id);
     return { cardObject, copies };
@@ -33,7 +31,7 @@ export const validateDeckString = (
 
   rules.forEach((rule) => {
     const invalidedByRule = deckCards.filter(
-      ({ cardObject, copies }) => !rule(cardObject, copies, deckClass)
+      ({ cardObject, copies }) => !rule(cardObject, copies)
     );
     invalidedByRule.forEach((c) => invalidCards.add(c));
   });
