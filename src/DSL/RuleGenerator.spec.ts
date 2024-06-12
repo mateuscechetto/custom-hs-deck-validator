@@ -474,6 +474,66 @@ describe("Rule Generator", () => {
           return !(costs.includes(card.cost) || !(card.cost & 1));
         },
       ],
+      [
+        "Less than with IS operator",
+        "RULE COST IS <5",
+        (card: Card, _: number) => {
+          return card.cost < 5;
+        },
+      ],
+      [
+        "Less than with IS NOT operator",
+        "RULE COST IS NOT <5",
+        (card: Card, _: number) => {
+          return card.cost >= 5;
+        },
+      ],
+      [
+        "Less than with IN operator",
+        "RULE COST IN <3, 7, 8",
+        (card: Card, _: number) => {
+          const costs: number[] = [7, 8];
+          return costs.includes(card.cost) || card.cost < 3;
+        },
+      ],
+      [
+        "Less than with NOT IN operator",
+        "RULE COST NOT IN <3, 7, 8",
+        (card: Card, _: number) => {
+          const costs: number[] = [7, 8];
+          return !(costs.includes(card.cost) || card.cost < 3);
+        },
+      ],
+      [
+        "More than with IS operator",
+        "RULE COST IS >5",
+        (card: Card, _: number) => {
+          return card.cost > 5;
+        },
+      ],
+      [
+        "More than with IS NOT operator",
+        "RULE COST IS NOT >5",
+        (card: Card, _: number) => {
+          return card.cost <= 5;
+        },
+      ],
+      [
+        "More than with IN operator",
+        "RULE COST IN >5, 1, 2",
+        (card: Card, _: number) => {
+          const costs: number[] = [1, 2];
+          return costs.includes(card.cost) || card.cost > 5;
+        },
+      ],
+      [
+        "More than with NOT IN operator",
+        "RULE COST NOT IN >5, 1, 2",
+        (card: Card, _: number) => {
+          const costs: number[] = [1, 2];
+          return !(costs.includes(card.cost) || card.cost > 5);
+        },
+      ],
     ])("should generate RULE with %o", (_, input, expectedRule) => {
       const result = generateRules(input);
 

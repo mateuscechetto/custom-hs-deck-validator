@@ -38,8 +38,8 @@ describe("Rule Validator", () => {
       ["COST attribute with number", "RULE COST IS 3"],
       ["COST EVEN", "RULE COST IS EVEN"],
       ["COST ODD", "RULE COST IS ODD"],
-      // ["COST LESS THAN", "RULE COST IS <5"],
-      // ["COST MORE THAN", "RULE COST IS >3"],
+      ["COST LESS THAN", "RULE COST IS <5"],
+      ["COST MORE THAN", "RULE COST IS >3"],
     ])("should return an empty array for valid inputs for %o", (_, input) => {
       const result = validateInput(input);
       expect(result).toEqual([]);

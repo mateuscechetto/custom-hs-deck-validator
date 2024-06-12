@@ -257,9 +257,23 @@ const validateSemantics = (
       }
     case "COST":
       if (words[2] === "IS") {
-        return validateSingleValue(words, index, line, ["EVEN", "ODD"], "cost", true);
+        return validateSingleValue(
+          words,
+          index,
+          line,
+          ["EVEN", "ODD"],
+          "cost",
+          true
+        );
       } else {
-        return validateValues(words, index, line, ["EVEN", "ODD"], "cost", true);
+        return validateValues(
+          words,
+          index,
+          line,
+          ["EVEN", "ODD"],
+          "cost",
+          true
+        );
       }
     default:
       return null;
@@ -282,8 +296,17 @@ const validateValues = (
   values.forEach((word, i) => {
     if (error) return;
     word = word.replace(",", "");
-    if (isNumeric(word) && acceptNumericValues) {
-      return null;
+    if (acceptNumericValues) {
+      if (isNumeric(word)) {
+        return null;
+      }
+
+      if (word.startsWith("<") || word.startsWith(">")) {
+        const num = word.slice(1);
+        if (isNumeric(num)) {
+          return null;
+        }
+      }
     }
     if (!validValues.includes(word)) {
       error = createMarker(
@@ -312,8 +335,17 @@ const validateSingleValue = (
     // the sentence was not finished
     return null;
   }
-  if (isNumeric(value) && acceptNumericValues) {
-    return null;
+  if (acceptNumericValues) {
+    if (isNumeric(value)) {
+      return null;
+    }
+
+    if (value.startsWith("<") || value.startsWith(">")) {
+      const num = value.slice(1);
+      if (isNumeric(num)) {
+        return null;
+      }
+    }
   }
   if (!validValues.includes(value)) {
     return createMarker(
@@ -342,5 +374,5 @@ const createMarker = (
 });
 
 const isNumeric = (str: string): boolean => {
-  return !isNaN(str as unknown as number);
+  return !isNaN(str as unknown as number) && !isNaN(parseFloat(str));
 };

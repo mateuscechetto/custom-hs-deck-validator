@@ -68,6 +68,13 @@ export const generateRules = (input: string): Rule[] => {
         if (value === "EVEN") {
           return !(card.cost & 1);
         }
+        if (value.startsWith(">")) {
+          return card.cost > Number(value.slice(1));
+        }
+        if (value.startsWith("<")) {
+          return card.cost < Number(value.slice(1));
+        }
+
         return card.cost === Number(value);
 
       default:
