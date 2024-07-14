@@ -9,16 +9,14 @@ export type CardAndCopies = {
   copies: number;
 };
 
-/** 
+/**
  * @throws {Error} When the deckstring is not decodable
  */
 export const validateDeckString = (
   deckString: string,
   rules: Rule[]
-): CardAndCopies[] => {
-  let deck;
-
-  deck = decode(deckString);
+): { valid: CardAndCopies[]; invalid: CardAndCopies[] } => {
+  const deck = decode(deckString);
 
   const deckCards = deck.cards.map(([id, copies]) => {
     const cardObject: Card = cards.find((c) => c.dbfId === id);
@@ -36,5 +34,14 @@ export const validateDeckString = (
     invalidedByRule.forEach((c) => invalidCards.add(c));
   });
 
-  return Array.from(invalidCards);
+  const validCards = deckCards.filter((c) => !invalidCards.has(c));
+
+  const result = {
+    valid: validCards.sort((a, b) => a.cardObject.cost - b.cardObject.cost),
+    invalid: Array.from(invalidCards).sort(
+      (a, b) => a.cardObject.cost - b.cardObject.cost
+    ),
+  };
+
+  return result;
 };

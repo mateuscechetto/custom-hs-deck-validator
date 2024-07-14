@@ -166,7 +166,7 @@ export const Console: React.FC<Props> = ({ setErrors, value, setValue }) => {
   return (
     <Editor
       height="30vh"
-      width={`60vw`}
+      width={`75vw`}
       options={{ fontSize: 22 }}
       language={"Rules DSL"}
       theme="vs-dark"
