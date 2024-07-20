@@ -53,6 +53,7 @@ const CardTileMain: React.FC<{ id: string; name: string }> = ({ id, name }) => {
 			className="w-full flex items-center text-left overflow-hidden flex-1 bg-cover h-[42px] text-slate-100 font-bold bg-gray-800 drop-shadow-lg"
 			style={{
 				backgroundImage: `linear-gradient(65deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) calc(100% - 150px), rgba(0, 0, 0, 0) calc(100% - 50px), rgba(0, 0, 0, 0)), url("https://art.hearthstonejson.com/v1/tiles/${id}.webp")`,
+				backgroundPosition: `center center, calc(50% + 10px) center`,
 			}}
 		>
 			<span className="p-2">{name}</span>
