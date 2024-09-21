@@ -40,7 +40,7 @@ const Cost: React.FC<{ cost: number; rarity?: CardRarity }> = ({
 
 	return (
 		<div
-			className={`${rarityColor} w-[34px] h-[42px] flex items-center justify-center font-bold text-lg rounded-l`}
+			className={`${rarityColor} w-[34px] h-[38px] flex items-center justify-center font-bold text-lg rounded-l`}
 		>
 			{cost}
 		</div>
@@ -50,7 +50,7 @@ const Cost: React.FC<{ cost: number; rarity?: CardRarity }> = ({
 const CardTileMain: React.FC<{ id: string; name: string }> = ({ id, name }) => {
 	return (
 		<div
-			className="w-full flex items-center text-left overflow-hidden flex-1 bg-cover h-[42px] text-slate-100 font-bold bg-gray-800 drop-shadow-lg"
+			className="w-full flex items-center text-left overflow-hidden flex-1 bg-cover h-[38px] text-slate-100 font-bold bg-gray-800 drop-shadow-lg"
 			style={{
 				backgroundImage: `linear-gradient(65deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) calc(100% - 150px), rgba(0, 0, 0, 0) calc(100% - 50px), rgba(0, 0, 0, 0)), url("https://art.hearthstonejson.com/v1/tiles/${id}.webp")`,
 				backgroundPosition: `center center, calc(50% + 10px) center`,
@@ -69,7 +69,7 @@ const Copies: React.FC<{ copies?: number; rarity?: CardRarity }> = ({
 
 	return (
 		<div
-			className={`${rarityColor} w-[34px] h-[42px] flex items-center justify-center font-bold text-lg rounded-r text-yellow-600`}
+			className={`${rarityColor} w-[34px] h-[38px] flex items-center justify-center font-bold text-lg rounded-r text-yellow-600`}
 		>
 			{rarity === "LEGENDARY" ? "★" : copies}
 		</div>
