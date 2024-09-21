@@ -63,7 +63,7 @@ function Home() {
 							))}
 						</ul>
 						<span>Valid Cards:</span>
-						<ul>
+						<ul className="mb-8">
 							{validCards.map(({ cardObject, copies }) => (
 								<li key={cardObject.id} className="min-w-[350px]">
 									<CardTile
@@ -82,7 +82,7 @@ function Home() {
 			return (
 				<>
 					<span>All Cards are Valid!</span>
-					<ul>
+					<ul className="mb-8">
 						{validCards.map(({ cardObject, copies }) => (
 							<li key={cardObject.id} className="min-w-[350px]">
 								<CardTile
